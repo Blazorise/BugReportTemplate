@@ -10,5 +10,9 @@ dotnet new install Blazorise.Templates::1.6.0
 # Check if the folder exists in the current directory and remove it if it does
 [ -d "$template_dir" ] && rm -rf "$template_dir"
 
-dotnet new blazorise -n "$template_dir" -p Bootstrap5 -bh WebApp  -ut true -f net8.0
+dotnet new blazorise -n "$template_dir" -p Bootstrap5 -bh WebApp  -ut true -f net8.0 --no-restore
+
+
+cp "README-in-templated-repo.md" "$template_dir/README.md"
+cp "LICENSE" "$template_dir/LICENSE"
 

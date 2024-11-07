@@ -9,7 +9,7 @@ on:
   schedule:
     - cron: "0 0 * * *" # Runs every day at midnight UTC
 
-jobs:
+jobs: 
   build-and-publish:
     runs-on: ubuntu-latest
 
@@ -23,19 +23,26 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Make the script executable
-          chmod +x ./run_the_template.bash
-          
+      
+          dotnet new install Blazorise.Templates::1.6.0
           # Define the providers to loop through
           providers=("Bootstrap5")
+
+
 
           # Loop over each provider
           for provider in "${providers[@]}"; do
             # Run the script with the current provider
-            ./run_the_template.bash "$provider"
-            
-            # The template_dir is set in run_the_template.bash and stored in the GITHUB_ENV
-            cd "${{ env.TEMPLATE_DIR }}"
+
+
+            # Set the repository name based on the provider
+            repo_name="BugReport${provider}"
+            template_dir="BlazoriseBugReport_$provider_$(date +"%y%m%d")"
+
+            dotnet new blazorise -n "$template_dir" -p "$provider" -bh WebApp  -ut true -f net8.0 
+
+
+            cd $template_dir
 
             git init
             git config user.name "${{ github.actor }}"
@@ -45,9 +52,6 @@ jobs:
 
             # Set the branch name to 'main'
             git branch -M main
-            
-            # Set the repository name based on the provider
-            repo_name="BugReport${provider}"
             
             # Add the remote using the GITHUB_TOKEN for authentication
             git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Blazorise/${repo_name}.git

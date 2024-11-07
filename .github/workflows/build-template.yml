@@ -2,7 +2,12 @@ name: Build and Publish Template Output to Main
 
 on:
   push:
-    branches: ["develop", "making-it-work"]
+    branches: 
+      - develop
+      - making-it-work
+
+  schedule:
+    - cron: "0 0 * * *" # Runs every day at midnight UTC
 
 jobs:
   build-and-publish:
@@ -13,26 +18,43 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Make the script executable and run it
-      - name: Make the script executable
+      # Step 2: Loop over providers and generate templates
+      - name: Generate templates and push to separate repositories
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-             chmod +x ./run_the_template.bash
-             ./run_the_template.bash
-
-      # Step 4: Initialize a new Git repository in BugReport and push to main
-      - name: Initialize a new Git repository in BugReport
-        run: |
-          cd "${{ env.TEMPLATE_DIR }}"
-          git init
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-          git add .
-          git commit -m "Publish template output to main"
-          git branch -M main
+          # Make the script executable
+          chmod +x ./run_the_template.bash
           
-          # Add the remote using the GITHUB_TOKEN for authentication
-          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Blazorise/BugReportTemplate.git
-          
-          # Push to the main branch
-          git push -f origin main
+          # Define the providers to loop through
+          providers=("Bootstrap5")
 
+          # Loop over each provider
+          for provider in "${providers[@]}"; do
+            # Run the script with the current provider
+            ./run_the_template.bash "$provider"
+            
+            # The template_dir is set in run_the_template.bash and stored in the GITHUB_ENV
+            cd "${{ env.TEMPLATE_DIR }}"
+
+            git init
+            git config user.name "${{ github.actor }}"
+            git config user.email "${{ github.actor }}@users.noreply.github.com"
+            git add .
+            git commit -m "Publish template output for $provider"
+
+            # Set the branch name to 'main'
+            git branch -M main
+            
+            # Set the repository name based on the provider
+            repo_name="BugReport${provider}"
+            
+            # Add the remote using the GITHUB_TOKEN for authentication
+            git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Blazorise/${repo_name}.git
+            
+            # Push to the main branch of the new repository
+            git push -f origin main
+
+            # Return to the root directory
+            cd ..
+          done

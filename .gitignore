@@ -398,5 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 
-BlazoriseBugReport_*
+BlazoriseBugReport*
 **/.idea

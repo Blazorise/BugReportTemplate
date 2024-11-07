@@ -2,7 +2,14 @@
 
 # Define the directory name
 # dir="BlazoriseBugReport_$(date +"%y%m%d")"
+
+
+
+
+# Set the template directory as an environment variable
+
 template_dir="BlazoriseBugReport"
+echo "TEMPLATE_DIR=$template_dir" >> $GITHUB_ENV
 
 dotnet new install Blazorise.Templates::1.6.0
 

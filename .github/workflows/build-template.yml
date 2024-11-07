@@ -22,7 +22,7 @@ jobs:
       # Step 4: Initialize a new Git repository in BugReport and push to main
       - name: Initialize a new Git repository in BugReport
         run: |
-          cd BlazoriseBugReport
+          cd "${{ env.TEMPLATE_DIR }}"
           git init
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"

@@ -12,6 +12,9 @@ on:
 jobs: 
   build-and-publish:
     runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write  # Ensures write access to repository contents
 
     steps:
       # Step 1: Checkout the repository

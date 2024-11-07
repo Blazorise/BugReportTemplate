@@ -2,8 +2,7 @@ name: Build and Publish Template Output to Main
 
 on:
   push:
-    branches:
-      - develop
+    branches: ["develop", "making-it-work"]
 
 jobs:
   build-and-publish:
@@ -14,13 +13,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Step 2: Make the script executable
+      # Step 2: Make the script executable and run it
       - name: Make the script executable
         run: |
              chmod +x ./run_the_template.bash
              ./run_the_template.bash
 
-      # Step 4: Initialize a new Git repository in BugReport and push to main
+      # Step 3: Initialize a new Git repository in BugReport and push to main
       - name: Initialize a new Git repository in BugReport
         run: |
           cd BlazoriseBugReport
@@ -31,7 +30,7 @@ jobs:
           git commit -m "Publish template output to main"
           git branch -M main
         
-      # Step 5: Force push BugReport as a new orphaned main branch
+      # Step 4: Force push BugReport as a new orphaned main branch
       - name: Push to main branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

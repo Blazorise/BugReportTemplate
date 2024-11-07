@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define the directory name
-dir="BlazoriseBugReport_$(date +"%y%m%d")"
-
+# dir="BlazoriseBugReport_$(date +"%y%m%d")"
+dir = "BlazoriseBugReport"
 
 dotnet new uninstall Blazorise.Templates
 dotnet new install Blazorise.Templates::1.6.0

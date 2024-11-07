@@ -1,0 +1,41 @@
+name: Build and Publish Template Output to Main
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Make the script executable
+      - name: Make the script executable
+        run: |
+             chmod +x ./run_the_template.bash
+             ./run_the_template.bash
+
+      # Step 4: Initialize a new Git repository in BugReport and push to main
+      - name: Initialize a new Git repository in BugReport
+        run: |
+          cd BlazoriseBugReport
+          git init
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git add .
+          git commit -m "Publish template output to main"
+          git branch -M main
+        
+      # Step 5: Force push BugReport as a new orphaned main branch
+      - name: Push to main branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd BlazoriseBugReport
+          git remote add origin https://github.com/${{ github.repository }}.git
+          git push -f origin main

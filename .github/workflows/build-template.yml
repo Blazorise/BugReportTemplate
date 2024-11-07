@@ -19,7 +19,7 @@ jobs:
              chmod +x ./run_the_template.bash
              ./run_the_template.bash
 
-      # Step 3: Initialize a new Git repository in BugReport and push to main
+      # Step 4: Initialize a new Git repository in BugReport and push to main
       - name: Initialize a new Git repository in BugReport
         run: |
           cd BlazoriseBugReport
@@ -29,12 +29,10 @@ jobs:
           git add .
           git commit -m "Publish template output to main"
           git branch -M main
-        
-      # Step 4: Force push BugReport as a new orphaned main branch
-      - name: Push to main branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          cd BlazoriseBugReport
-          git remote add origin https://github.com/${{ github.repository }}.git
+          
+          # Add the remote using the GITHUB_TOKEN for authentication
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Blazorise/BugReportTemplate.git
+          
+          # Push to the main branch
           git push -f origin main
+

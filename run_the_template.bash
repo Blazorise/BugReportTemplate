@@ -2,7 +2,7 @@
 
 # Define the directory name
 # dir="BlazoriseBugReport_$(date +"%y%m%d")"
-template_dir = "BlazoriseBugReport"
+template_dir="BlazoriseBugReport"
 
 dotnet new uninstall Blazorise.Templates
 dotnet new install Blazorise.Templates::1.6.0

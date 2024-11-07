@@ -12,6 +12,6 @@ dotnet new install Blazorise.Templates::1.6.0
 dotnet new blazorise -n "$template_dir" -p Bootstrap5 -bh WebApp  -ut true -f net8.0 
 
 
-cp "README-in-templated-repo.md" "$template_dir/README.md"
+cp -r files-to-add-to-templated-repo/* "$template_dir/"
 cp "LICENSE" $template_dir
 

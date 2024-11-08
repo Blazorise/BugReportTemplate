@@ -1,0 +1,61 @@
+name: Build and Publish Template Output to Main
+
+on:
+  push:
+    branches: 
+      - main
+
+  schedule:
+    - cron: "0 0 * * *" # Runs every day at midnight UTC
+
+jobs: 
+  build-and-publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Loop over providers and generate templates
+      - name: Generate templates and push to separate repositories
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+      
+          dotnet new install Blazorise.Templates
+          # Define the providers to loop through
+           providers=("Bootstrap5" "Bootstrap4" "Tailwind" "Material" "AntDesign" "Bulma" "FluentUI2")
+          # Loop over each provider
+          for provider in "${providers[@]}"; do
+            # Run the script with the current provider
+
+
+            # Set the repository name based on the provider
+            repo_name="BugReport${provider}"
+            template_dir="BlazoriseBugReport${provider}_$(date +"%y%m%d")" #date to repo name to have the
+
+            dotnet new blazorise -n "$template_dir" -p "$provider" -bh WebApp  -ut true 
+            cp -r files-to-add-to-templated-repo/* "$template_dir/"
+           
+            sed -i 's/__==PROVIDER==__/'"$provider"'/g' "$template_dir/README.md"  # replace __==PROVIDER==__ string in $template_dir/README.md file
+
+            cp "LICENSE" $template_dir    
+
+            cd $template_dir
+
+            git init --initial-branch=main
+            git config user.name "GitHub Action"
+            git config user.email "action@github.com"
+            
+            git remote add origin https://x-access-token:${{ secrets.DEPLOY_TO_BUGREPORT_REPOS }}@github.com/Blazorise/${repo_name}.git
+            
+            git add .
+            git commit -m "Publish template output for $provider"
+            
+            # Push to the main branch of the new repository
+            git push -f origin main
+
+            # Return to the root directory
+            cd ..
+          done

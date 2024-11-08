@@ -27,7 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
       
-          dotnet new install Blazorise.Templates::1.6.0
+          dotnet new install Blazorise.Templates
           # Define the providers to loop through
           providers=("Bootstrap5")
 
@@ -44,6 +44,11 @@ jobs:
 
             dotnet new blazorise -n "$template_dir" -p "$provider" -bh WebApp  -ut true -f net8.0 
             cp -r files-to-add-to-templated-repo/* "$template_dir/"
+           
+            # replace __==PPROVIDER==__ string in $template_dir/README.md file
+            sed -i 's/__==PPROVIDER==__/'"$provider"'/g' "$template_dir/README.md"
+
+            
             cp "LICENSE" $template_dir    
 
             cd $template_dir

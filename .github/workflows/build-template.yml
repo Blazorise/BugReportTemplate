@@ -48,8 +48,8 @@ jobs:
             cd $template_dir
 
             git init
-            git config user.name "${{ github.actor }}"
-            git config user.email "${{ github.actor }}@users.noreply.github.com"
+            git config user.name "GitHub Action"
+            git config user.email "action@github.com"
             git add .
             git commit -m "Publish template output for $provider"
 

@@ -3,8 +3,7 @@ name: Build and Publish Template Output to Main
 on:
   push:
     branches: 
-      - develop
-      - making-it-work
+      - main
 
   schedule:
     - cron: "0 0 * * *" # Runs every day at midnight UTC
@@ -13,9 +12,6 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     
-    permissions:
-      contents: write  # Ensures write access to repository contents
-
     steps:
       # Step 1: Checkout the repository
       - name: Checkout repository
@@ -29,8 +25,7 @@ jobs:
       
           dotnet new install Blazorise.Templates
           # Define the providers to loop through
-          #  providers=("Bootstrap4" "Bootstrap5" "Tailwind" "Material" "AntDesign" "Bulma" "FluentUI2")
-          providers=(""Bootstrap5"")
+           providers=("Bootstrap5" "Bootstrap4" "Tailwind" "Material" "AntDesign" "Bulma" "FluentUI2")
           # Loop over each provider
           for provider in "${providers[@]}"; do
             # Run the script with the current provider

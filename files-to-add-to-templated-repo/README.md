@@ -1,15 +1,16 @@
 # Blazorise Bug Report Template for __==PROVIDER==__
 
-This template streamlines the bug reporting process for Blazorise projects.
+This template streamlines the [bug reporting](https://github.com/Megabit/Blazorise/issues/new?template=bug_report.yaml) process for Blazorise projects.
 
-For other provider templates, visit [this link](https://github.com/Blazorise/BugReportTemplate).
+(Not using `__==PROVIDER==__`? See templates for other providers [here](https://github.com/Blazorise/BugReportTemplate).)
+
 
 ## Instructions
 
 1. Click the green **Use this template** button.
 2. Name the repository according to your bug.
 3. Clone the repository, make your edits, commit, and push your changes.
-4. Include a link to your repository in your bug report on the main Blazorise repository.
+4. Include a link to your repository in your [bug report on the main Blazorise repository](https://github.com/Megabit/Blazorise/issues/new?template=bug_report.yaml).
 
 ### Alternative Setup
 

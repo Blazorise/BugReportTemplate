@@ -56,8 +56,8 @@ jobs:
             # Set the branch name to 'main'
             git branch -M main
             
-            # Add the remote using the GITHUB_TOKEN for authentication
-            git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Blazorise/${repo_name}.git
+            # Add the remote using the token for authentication
+            git remote add origin https://x-access-token:${{ secrets. DEPLOY-TO-BUGREPORT-REPOS }}@github.com/Blazorise/${repo_name}.git
             
             # Push to the main branch of the new repository
             git push -f origin main

@@ -47,7 +47,7 @@ jobs:
 
             cd $template_dir
 
-            git init
+            git init --initial-branch=main
             git config user.name "GitHub Action"
             git config user.email "action@github.com"
             

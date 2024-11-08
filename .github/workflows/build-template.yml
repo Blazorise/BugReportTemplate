@@ -43,7 +43,8 @@ jobs:
             template_dir="BlazoriseBugReport_$provider_$(date +"%y%m%d")"
 
             dotnet new blazorise -n "$template_dir" -p "$provider" -bh WebApp  -ut true -f net8.0 
-
+            cp -r files-to-add-to-templated-repo/* "$template_dir/"
+            cp "LICENSE" $template_dir    
 
             cd $template_dir
 

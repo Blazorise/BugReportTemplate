@@ -1,18 +1,35 @@
-# BugReportTemplate
+# Blazorise BugReportTemplate Home
 
-This repository serves as a template for creating bug reports specifically for the Blazorise library.
+This repository serves as the central hub for templates to create bug reports for the Blazorise library.
 
-### Overview
+Each template is tailored to one of the Blazorise providers:
 
-The automation is powered by a GitHub Actions workflow (`build-template.yml`) and a Bash script (`run_the_template.bash`). Together, they handle the creation and deployment of the template.
+- [Bootstrap4](https://github.com/Blazorise/BugReportBootstrap4)
+- [Bootstrap5](https://github.com/Blazorise/BugReportBootstrap5)
+- [Tailwind](https://github.com/Blazorise/BugReportTailwind)
+- [Material](https://github.com/Blazorise/BugReportMaterial)
+- [AntDesign](https://github.com/Blazorise/BugReportAntDesign)
+- [Bulma](https://github.com/Blazorise/BugReportBulma)
+- [FluentUI2](https://github.com/Blazorise/BugReportFluentUI2)
 
-### How It Works
 
-- The **Bash script** installs `Blazorise.Templates` and generates the template. It also copies additional files like the README and LICENSE to ensure they’re included in each output. Running the script locally allows for easy testing.
+### Alternative Setup
 
-    ```bash
-    # Run the script locally (for WSL)
-    wsl bash run_the_template.bash
-    ```
+If this template doesn’t fully meet your needs or if you’re using a different .NET version, consider generating a new project with the [Blazorise template](https://blazorise.com/docs/templates).
 
-- The **GitHub Action** then takes the generated repository, commits it to an orphaned branch (`main`), and publishes it. This action runs daily, so each day’s commit includes a unique identifier in the output folder name, making it easier to distinguish different runs and track changes over time.
+Example command:
+
+```bash
+dotnet new blazorise -n MyBugReport -p Bootstrap5 -bh WebAssembly -ut true -f net7.0
+```
+
+This will create a WebAssembly app using the Bootstrap5 provider for .NET 7.
+
+**Note:** Ensure the Blazorise templates are installed first:
+
+```bash
+dotnet new install Blazorise.Templates
+```
+
+For detailed instructions, refer to the [Blazorise documentation](https://blazorise.com/docs/templates).
+
